@@ -19,22 +19,4 @@ export class AppController {
   hello() {
     return 'Con /sas/';
   }
-
-  @Get('products')
-  getProduc(
-    @Query('limit') limit = 100,
-    @Query('offset') offset = 0,
-    @Query('brand') brand: string) {
-    return `Products: limit = ${limit} products = ${offset} brand = ${brand}`
-  }
-
-  @Get('products/:id')
-  getProduct(@Param('id') productId: string) {
-    return `Product: ${productId}`
-  }
-
-  @Get('categories/:id/products/:productId')
-  getCategory(@Param('id') id: string, @Param('productId') productId: string) {
-    return `Category: ${id} Product: ${productId}`
-  }
 }
