@@ -7,9 +7,10 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
-import { CreateProductDto, UpdateProductDto } from 'src/dtos/products.dtos';
-import { ProductsService } from 'src/services/products/products.service';
+import { ProductsService } from 'src/products/services/products.service';
+import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
 
 @Controller('products')
 export class ProductsController {
