@@ -7,16 +7,19 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 import { ParseIntPipe } from 'src/common/parse-int.pipe';
 import { ProductsService } from 'src/products/services/products.service';
 import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
 
+@ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(private productsService: ProductsService) {}
 
   @Get()
+  @ApiOperation({ summary: 'List of products' })
   get() {
     return this.productsService.findAll();
   }
