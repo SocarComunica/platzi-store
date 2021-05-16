@@ -8,6 +8,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Request validation pipes
   app.useGlobalPipes(
     new ValidationPipe({
       // Ignores on requests noy expected parameters
@@ -17,6 +18,7 @@ async function bootstrap() {
     }),
   );
 
+  // Swagger documentation configuration
   const config = new DocumentBuilder()
     .setTitle('Platzi Store API')
     .setDescription('Platzi Store API description')
@@ -26,6 +28,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(3000);
+  app.enableCors();
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
