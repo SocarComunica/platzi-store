@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 
 import { User } from 'src/users/entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from 'src/users/dtos/user.dtos';
-import { Order } from '../entities/order.entity';
 import { ProductsService } from 'src/products/services/products.service';
 
 @Injectable()
@@ -66,12 +65,12 @@ export class UsersService {
     return true;
   }
 
-  getOrdersByUser(id: number): Order {
+  async getOrdersByUser(id: number) {
     const user = this.findOne(id);
     return {
       date: new Date(),
       user,
-      products: this.productsService.findAll(),
+      products: await this.productsService.findAll(),
     };
   }
 }
