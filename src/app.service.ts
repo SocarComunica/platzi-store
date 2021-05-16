@@ -18,6 +18,6 @@ export class AppService {
 
   async getTasks() {
     const tasksCollection = this.database.collection('tasks');
-    const tasks = await tasksCollection.find().toArray();
+    return await tasksCollection.find().toArray();
   }
 }
