@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigType } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 
 import * as Joi from 'joi';
 
@@ -7,7 +8,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
-import { DatabaseModule } from './database/database.module';
 import { environments } from './environments';
 import config from './config';
 
@@ -30,9 +30,21 @@ import config from './config';
         MONGO_CONNECTION: Joi.string().required(),
       }),
     }),
+    MongooseModule.forRootAsync({
+      useFactory: (configService: ConfigType<typeof config>) => {
+        const { connection, dbName, host, password, port, user } =
+          configService.mongo;
+        return {
+          uri: `${connection}://${host}:${port}`,
+          user,
+          pass: password,
+          dbName,
+        };
+      },
+      inject: [config.KEY],
+    }),
     UsersModule,
     ProductsModule,
-    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
