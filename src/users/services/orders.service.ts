@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
@@ -22,10 +22,12 @@ export class OrdersService {
     return newModel.save();
   }
 
-  update(id: string, changes: UpdateOrderDto) {
-    return this.orderModel
+  async update(id: string, changes: UpdateOrderDto) {
+    const order = await this.orderModel
       .findByIdAndUpdate(id, { $set: changes }, { new: true })
       .exec();
+    if (!order) throw new NotFoundException(`Order '${id}' not found`);
+    return order;
   }
 
   remove(id: string) {
