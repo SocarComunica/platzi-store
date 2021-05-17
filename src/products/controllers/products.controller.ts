@@ -6,12 +6,17 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
 import { ProductsService } from 'src/products/services/products.service';
-import { CreateProductDto, UpdateProductDto } from '../dtos/products.dtos';
+import {
+  CreateProductDto,
+  FilterProductsDto,
+  UpdateProductDto,
+} from '../dtos/products.dtos';
 
 @ApiTags('products')
 @Controller('products')
@@ -20,8 +25,8 @@ export class ProductsController {
 
   @Get()
   @ApiOperation({ summary: 'List of products' })
-  async get() {
-    return await this.productsService.findAll();
+  async get(@Query() params: FilterProductsDto) {
+    return await this.productsService.findAll(params);
   }
 
   @Get(':id')

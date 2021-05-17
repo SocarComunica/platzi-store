@@ -15,6 +15,10 @@ async function bootstrap() {
       whitelist: true,
       // Forces error on request not expected parameters
       forbidNonWhitelisted: true,
+      // Transform query params implicitly
+      transformOptions: {
+        enableImplicitConversion: true,
+      },
     }),
   );
 
